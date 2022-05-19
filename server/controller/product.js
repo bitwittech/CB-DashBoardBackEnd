@@ -1,5 +1,7 @@
 
-const localhost = 'http://localhost:8000'
+const localhost = 'http://localhost:8000';
+const db = require('../../database/dbConfig.js')
+
 // ================================================= Apis for Products ======================================================= 
 //==============================================================================================================================
 
@@ -47,14 +49,14 @@ exports.addProduct = async (req,res) =>{
  
 // Get Product List 
 
-exports.getListProduct = async(req,res)=>{
-    await product.find()
+exports.getListUser = async(req,res)=>{
+    await db.select('*').from('newregistration')
     .then((response)=>{
-    //   console.log(response)
+      console.log(response)
       res.send(response)
     })
     .catch((err)=>{
-        // console.log(err)
+        console.log(err)
         res.send("Not Done !!!")
     })
 }

@@ -103,7 +103,7 @@ route.post('/addProducts', AuthJwt, upload, products.addProduct);
 
 // Get the list product
 
-route.get('/getListProduct', AuthJwt, products.getListProduct);
+route.get('/getListProduct', AuthJwt, products.getListUser);
 
 // delete product
 

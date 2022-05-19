@@ -1,10 +1,28 @@
-// required libs : mongoose | colors
-// run the following command
-// npm i mongoose colors
+/**
+ * Copyright © 2016-present Kriasoft.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.txt file in the root directory of this source tree.
+ */
 
-require('dotenv').config();
-const colors = require('colors');
-const mongoose = require('mongoose')
-mongoose.connect(process.env.DataBase_URI , { useNewUrlParser : true, useUnifiedTopology : true})
-.then((res)=>console.log('> Connected...'.bgCyan))
-.catch(err=>console.log(`> Error while connecting to mongoDB : ${err.message}`.underline.red ))
+/* @flow */
+
+const  knex = require('knex');
+
+const db = knex({
+  client: 'pg',
+  connection: {
+    port: '32768',
+    host: '206.189.138.80',
+    user: 'classbazaar',
+    password: 'CBPassword2019!',
+    database: 'postgres',
+  },
+  pool: {
+    min: 1,
+    max: 400,
+  },
+  debug: process.env.DATABASE_DEBUG === 'true',
+});
+
+module.exports = db;

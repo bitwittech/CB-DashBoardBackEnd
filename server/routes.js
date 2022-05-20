@@ -7,7 +7,8 @@ const multer = require('multer')
 // CONTROLLER
 const user = require("./controller/user");
 const userPanel = require("./controller/userPanel");
-// middilwear for the multer setup
+const tracking = require("./controller/tracking");
+// middleware for the multer setup
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -36,7 +37,7 @@ const upload = multer({
 }).fields([{ name: "product_image" }, { name: "featured_image" }, { name: "category_image" }, { name: 'banner_image' }]);
 
 
-// middlewear for encryption
+// middleware for encryption
 function encode(req, res, next) {
     const saltRounds = 10;
 
@@ -109,6 +110,16 @@ route.delete('/deleteUser', AuthJwt, userPanel.deleteUser);
 // update product
 
 route.patch('/updateUser', AuthJwt, upload, userPanel.updateUser);
+
+// =============== User Tracking routes =======================
+
+route.get('/listCardTrack', AuthJwt, tracking.listCardTrack);
+
+route.get('/listEnrollTrack', AuthJwt, tracking.listEnrollTrack);
+
+route.get('/listSearchTrack', AuthJwt, tracking.listSearchTrack);
+
+route.get('/listTrackData', AuthJwt, tracking.listTrackData);
 
 
 

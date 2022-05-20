@@ -1,9 +1,9 @@
 // packages 
 const bcrypt = require("bcrypt");
 const JWT = require('jsonwebtoken');
+const db = require('../../database/dbConfig.js')
+require('dotenv').config();
 
-// DB modules 
-const userDB = require("../../database/models/user");
 
 // ================================================= Apis for User ======================================================= 
 //==============================================================================================================================
@@ -12,19 +12,18 @@ const userDB = require("../../database/models/user");
 
 // for deafulting paging
 exports.home = (req, res) => {
-    res.send("This Apis is written for the WoodSala!!!");
+    res.send("This Apis is written for the CB DashBoard!!!");
 };
 
 
 // for registration API
 
 exports.register = async(req, res) => {
+    console.log('called')
 
-
-    const data = userDB(req.body);
-
-    data
-        .save()
+    db
+    .table('admin_data')
+    .insert(req.body)
         .then((response) => {
             return res.status(200).send(req.body);
         })
@@ -38,7 +37,7 @@ exports.register = async(req, res) => {
 
 // function for genrate JWT
 
-function genrateJWT(data) {
+function generateJWT(data) {
     // console.log(process.env.JWT_Secreet)
     const token = JWT.sign(data, process.env.JWT_Secreet);
     return token;
@@ -48,21 +47,21 @@ function genrateJWT(data) {
 exports.login = (req, res) => {
 
     console.log(req.body)
-    if (req.body.email === undefined || req.body.password === undefined) return res.status(203).send('Please provides the vaild data')
+    if (req.body.email === undefined || req.body.password === undefined) return res.status(203).send('Please provides the valid data')
 
-    userDB
-        .findOne({ email: req.body.email })
+    db
+        .table('admin_data')
+        .where('email','=',req.body.email)
         .then((data) => {
-            console.log(data)
+            console.log('>>>',data)
             if (data != null) {
-                bcrypt.compare(req.body.password, data.password, function(err, result) {
+                bcrypt.compare(req.body.password, data[0].password, function(err, result) {
                     console.log(data, result)
-
                     if (result === true) {
-                        let token = genrateJWT(req.body);
+                        let token = generateJWT(req.body);
                         console.log(data)
                         console.log("User Found !!!", data);
-                        return res.send({ message: "Log In Sucessfully !!!", token, name: data.user_Name, email: data.email })
+                        return res.send({ message: "Log In Successfully !!!", token, name: data.user_Name, email: data.email })
 
                     } else
                         return res.status(203).send({ message: ">>User Not Found !!!" })

@@ -6,7 +6,7 @@ const multer = require('multer')
 
 // CONTROLLER
 const user = require("./controller/user");
-const products = require("./controller/product");
+const userPanel = require("./controller/userPanel");
 // middilwear for the multer setup
 
 const storage = multer.diskStorage({
@@ -95,27 +95,21 @@ route.post("/register", encode, upload, user.register);
 route.post("/login", upload, user.login);
 
 
-// =============== Products routes =======================
+// =============== userPanel routes =======================
 
-// add product
-
-route.post('/addProducts', AuthJwt, upload, products.addProduct);
 
 // Get the list product
 
-route.get('/getListProduct', AuthJwt, products.getListUser);
+route.get('/getListProduct', AuthJwt, userPanel.getListUser);
 
 // delete product
 
-route.delete('/deleteProduct', AuthJwt, products.deleteProduct);
+route.delete('/deleteUser', AuthJwt, userPanel.deleteUser);
 
 // update product
 
-route.patch('/updateProduct', AuthJwt, upload, products.updateProduct);
+route.patch('/updateUser', AuthJwt, upload, userPanel.updateUser);
 
-// Find last document for SKU id increment
-
-route.get('/getLastProduct', AuthJwt, products.getLastProduct);
 
 
 module.exports = route;

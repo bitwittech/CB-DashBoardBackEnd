@@ -12,7 +12,7 @@ require('dotenv').config();
 
 // for deafulting paging
 exports.home = (req, res) => {
-    res.send("This Apis is written for the WoodSala!!!");
+    res.send("This Apis is written for the CB DashBoard!!!");
 };
 
 

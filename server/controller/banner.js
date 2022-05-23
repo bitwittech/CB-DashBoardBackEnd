@@ -1,5 +1,5 @@
 
-const banner = require("../../database/models/banner");
+const db = require('../../database/dbConfig.js')
 
 const localBaseUrl = 'http://localhost:8000'
 
@@ -10,21 +10,20 @@ const localBaseUrl = 'http://localhost:8000'
 
 exports.addBanner = async(req,res) => {
 
-
+console.log(req.files['banner_image'])
 if(req.files !== undefined)
-    req.body.banner_URL = `${localBaseUrl}/${req.files['banner_image'].path}`;
+    req.body.banner_URL = `${localBaseUrl}/${req.files['banner_image'][0].path}`;
 else 
     return res.status(203);
 
-const data = banner(req.body)
 
-await data.save()
+await db.table('banner').insert(req.body)
 .then((data)=>{
-    // console.log(data)
+    console.log(data)
     return res.send('Banner Added Successfully !!!')
 })
 .catch((err)=>{
-    return res.send('Something went worng')
+    return res.send('Something went wrong')
 })
 
 }
@@ -34,7 +33,7 @@ await data.save()
 
 exports.listBanner = async(req,res)=>{
 
-    await banner.find()
+    await db.table('banner')
     .then((data)=>{
         // console.log(data)
         if (data !== null)
@@ -54,14 +53,15 @@ exports.listBanner = async(req,res)=>{
 
 exports.changeStatus = async(req,res) =>{
     console.log(req.body)
-    await banner.findByIdAndUpdate({_id : req.body._id},{banner_Status : req.body.banner_Status})
+    const _id = req.body._id
+    await db.table('banner').where('_id','=',_id).update(req.body)
     .then((data)=>{
         console.log(data)
         res.send('all okay')
     })
     .catch((err)=>{
         console.log(err)
-        res.send('Somthing went worang !!!')
+        res.send('Something went wrong !!!')
     })
 }
 

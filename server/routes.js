@@ -8,8 +8,10 @@ const multer = require('multer')
 const user = require("./controller/user");
 const userPanel = require("./controller/userPanel");
 const tracking = require("./controller/tracking");
-// middleware for the multer setup
+const dashboard = require("./controller/dashboard");
+const banner = require("./controller/banner")
 
+// middleware for the multer setup
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './upload/');
@@ -122,5 +124,22 @@ route.get('/listSearchTrack', AuthJwt, tracking.listSearchTrack);
 route.get('/listTrackData', AuthJwt, tracking.listTrackData);
 
 
+// ================ User report ================================
+
+route.get('/siteReport', AuthJwt, dashboard.siteReport);
+
+// ================== Banner Routes =============================
+
+// add banners
+
+route.post('/addBanner', AuthJwt, upload, banner.addBanner);
+
+// list banners
+
+route.get('/listBanner', AuthJwt, banner.listBanner);
+
+// change status banners
+
+route.patch('/chaneStatusBanner', upload, AuthJwt, banner.changeStatus);
 
 module.exports = route;

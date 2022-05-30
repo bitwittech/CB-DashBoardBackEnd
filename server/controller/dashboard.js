@@ -8,12 +8,14 @@ exports.siteReport = async (req, res) => {
   let todayLog = 0;
   let monthLog = 0;
   let yearLog = 0;
+  let anonymous  = 0;
+  // let todayanonymous  = 0;
 
   // [ '2022', '05', '19' ] time
   // [ '23', '05', '2022' ] present
 
   await db
-    .table("user_tracking_data")
+    .table("user_tracking_data").orderBy('_id','desc')
     .then(async (response) => {
       response.map((data) => {
         let time = JSON.stringify(data.time_stamp)
@@ -21,10 +23,21 @@ exports.siteReport = async (req, res) => {
           .slice(1)
           .split("-");
 
-        if (time[2] === presentDate[0]) todayLog += 1;
-        if (time[1] === presentDate[1]) monthLog += 1;
-        if (time[0] === presentDate[2]) yearLog += 1;
+          // console.log(time)
+        if (data.user_email !== 'User Not Loged In')
+        {
+          if (time[2] === presentDate[1]) todayLog += 1;
+          if (parseInt(time[1]) === parseInt(presentDate[0])) monthLog += 1;
+          if (time[0] === presentDate[2]) yearLog += 1;
+        }
+        else {
+          anonymous+=1
+        }
       });
+
+      // console.log(todayLog,
+      //   monthLog,
+      //   yearLog)
 
       // count user
       await db
@@ -58,6 +71,10 @@ exports.siteReport = async (req, res) => {
                     totalCourse,
                     freeCourse,
                     paidCourse,
+                    anonymous,
+                    todayTraffic : todayLog,
+                    monthTraffic : monthLog + anonymous, 
+                    yearTraffic : yearLog + anonymous, 
                   });
                 });
             });

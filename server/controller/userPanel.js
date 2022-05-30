@@ -8,15 +8,33 @@ const db = require('../../database/dbConfig.js')
 // Get Product List 
 
 exports.getListUser = async(req,res)=>{
-    await db.select('*').from('newregistration')
-    .then((response)=>{
-    //   console.log(response)
-      res.send(response)
-    })
-    .catch((err)=>{
-        console.log(err)
-        res.send("Not Done !!!")
-    })
+    console.log(req.query)
+    req.query.email = req.query.email.trim()
+
+  if(req.query.email !== '')
+  {
+    await db.select('*').from('newregistration').where('email_address', 'like', `%${req.query.email}%`).then((response)=>{
+      console.log(response)
+          res.send(response)
+        })
+        .catch((err)=>{
+            console.log(err)
+            res.send("Not Done !!!")
+        })
+  }
+  else{
+    
+        await db.select('*').from('newregistration').orderBy('_id','desc')
+        .then((response)=>{
+          res.send(response)
+        })
+        .catch((err)=>{
+            console.log(err)
+            res.send("Not Done !!!")
+        })
+
+  }
+  
 }
 
 

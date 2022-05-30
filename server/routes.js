@@ -123,6 +123,8 @@ route.get('/listSearchTrack', AuthJwt, tracking.listSearchTrack);
 
 route.get('/listTrackData', AuthJwt, tracking.listTrackData);
 
+route.get('/searchUser', AuthJwt, tracking.searchUser);
+
 
 // ================ User report ================================
 

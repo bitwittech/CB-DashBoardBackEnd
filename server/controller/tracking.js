@@ -111,6 +111,7 @@ exports.listTrackData = async (req,res) =>{
     
         await db.select('*').from('user_tracking_data').orderBy('_id','desc')
         .then((response)=>{
+          console.log(response)
           res.send(response)
         })
         .catch((err)=>{

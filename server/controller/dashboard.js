@@ -23,10 +23,10 @@ exports.siteReport = async (req, res) => {
           .slice(1)
           .split("-");
 
-          // console.log(time)
+          console.log(time,presentDate[1])
         if (data.user_email !== 'User Not Loged In')
         {
-          if (time[2] === presentDate[1]) todayLog += 1;
+          if (parseInt(time[2]) === parseInt(presentDate[1])) todayLog += 1;
           if (parseInt(time[1]) === parseInt(presentDate[0])) monthLog += 1;
           if (time[0] === presentDate[2]) yearLog += 1;
         }

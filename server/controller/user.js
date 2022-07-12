@@ -10,7 +10,7 @@ require('dotenv').config();
 
 
 
-// for deafulting paging
+// for defaulting paging
 exports.home = (req, res) => {
     res.send("This Apis is written for the CB DashBoard!!!");
 };

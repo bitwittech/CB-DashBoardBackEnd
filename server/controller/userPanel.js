@@ -48,7 +48,7 @@ exports.deleteUser = async (req,res)=>{
         res.send({message : "Product deleted successfully !!!"})
     })
     .catch((err)=>{
-        res.send({message : 'Some error occures !!!'})
+        res.send({message : 'Some error occurs !!!'})
 
     })
 }

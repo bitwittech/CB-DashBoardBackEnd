@@ -43,7 +43,7 @@ exports.listBanner = async(req,res)=>{
     })
     .catch((err)=>{
         console.log(err)
-        return res.send("Somthing went worng !!!")
+        return res.send("Something went wrong !!!")
     })
 
 

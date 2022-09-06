@@ -1,3 +1,8 @@
+
+// 0-2 year 
+// 1-0 month 
+// 2-1 year 
+
 const { parse } = require("path");
 const db = require("../../database/dbConfig.js");
 
@@ -20,6 +25,9 @@ exports.siteReport = async (req, res) => {
   await db
     .table("user_tracking_data").orderBy('_id', 'desc')
     .then(async (response) => {
+
+      // console.log(response)
+
       response.map((data) => {
         let time = JSON.stringify(data.time_stamp)
           .split("T")[0]
@@ -32,10 +40,7 @@ exports.siteReport = async (req, res) => {
 
         })
 
-        // time[2] += 1;
-        // [ '2022', '05', '12' ] [ '12', '07', '2022' ]
-        if (data.user_email !== 'User Not Logged In') {
-          // console.log(time,presentDate)
+           if (data.user_email !== 'User Not Logged In') {
           // day
           if (time[2] === presentDate[0] && time[1] === presentDate[1] && time[0] === presentDate[2])
             todayLog += 1;
@@ -48,12 +53,14 @@ exports.siteReport = async (req, res) => {
         }
         else {
           // day
-          if (time[2] === presentDate[0] && time[1] === presentDate[1] && time[0] === presentDate[2]) {
+          if (time[2] === presentDate[0] && time[1] === presentDate[1] && time[0] === presentDate[2])
+{
             todayAnonymous += 1;
             anonymous += 1
           }
           //month 
-          if (time[1] === presentDate[1] && time[0] === presentDate[2]) {
+          if (time[1] === presentDate[1] && time[0] === presentDate[2])
+          {
             monthAnonymous += 1;
             anonymous += 1
           }
@@ -110,3 +117,4 @@ exports.siteReport = async (req, res) => {
       res.send("Not Done !!!");
     });
 };
+ 

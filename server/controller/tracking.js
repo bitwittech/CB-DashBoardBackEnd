@@ -4,11 +4,21 @@ const db = require('../../database/dbConfig.js')
 // ======================= Tracking APis ===============================================
 
 exports.listCardTrack = async (req,res) =>{
-  console.log(req.query)
-  req.query.email = req.query.email.trim()
-  if(req.query.email !== '')
-  {
-    await db.select('*').from('card_event').where('user_email', 'like', `%${req.query.email}%`).then((response)=>{
+  const filter = JSON.parse(req.query.filter)
+  console.log('>>>>>',filter)
+
+  if (filter.startDate !== '' && filter.endDate !== '') {
+      await db.select('*').from('card_event')
+          .where((qp) => {
+              if (filter.startDate !== '' && filter.endDate !== '') {
+                  qp.where('event_time', '>', filter.startDate)
+                  qp.andWhere('event_time', '<', filter.endDate)
+              }
+              // if (filter.mobile !== '')
+              //     qp.andWhere('mobile_no', '=', filter.mobile)
+
+
+          }).then((response)=>{
       console.log(response)
           res.send(response)
         })
@@ -34,11 +44,21 @@ exports.listCardTrack = async (req,res) =>{
 }
 
 exports.listEnrollTrack = async (req,res) =>{
-  req.query.email = req.query.email.trim()
+  const filter = JSON.parse(req.query.filter)
+  console.log('>>>>>',filter)
 
-  if(req.query.email !== '')
-  {
-    await db.select('*').from('enroll_event').where('user_email', 'like', `%${req.query.email}%`).then((response)=>{
+  if (filter.startDate !== '' && filter.endDate !== '') {
+      await db.select('*').from('enroll_event')
+          .where((qp) => {
+              if (filter.startDate !== '' && filter.endDate !== '') {
+                  qp.where('event_time', '>', filter.startDate)
+                  qp.andWhere('event_time', '<', filter.endDate)
+              }
+              // if (filter.mobile !== '')
+              //     qp.andWhere('mobile_no', '=', filter.mobile)
+
+
+          }).then((response)=>{
       console.log(response)
           res.send(response)
         })
@@ -64,11 +84,21 @@ exports.listEnrollTrack = async (req,res) =>{
 
 
 exports.listSearchTrack = async (req,res) =>{
-  req.query.email = req.query.email.trim()
+  const filter = JSON.parse(req.query.filter)
+  console.log('>>>>>',filter)
 
-  if(req.query.email !== '')
-  {
-    await db.select('*').from('search_event').where('user_email', 'like', `%${req.query.email}%`).then((response)=>{
+  if (filter.startDate !== '' && filter.endDate !== '') {
+      await db.select('*').from('search_event')
+          .where((qp) => {
+              if (filter.startDate !== '' && filter.endDate !== '') {
+                  qp.where('event_time', '>', filter.startDate)
+                  qp.andWhere('event_time', '<', filter.endDate)
+              }
+              // if (filter.mobile !== '')
+              //     qp.andWhere('mobile_no', '=', filter.mobile)
+
+
+          }).then((response)=>{
       console.log(response)
           res.send(response)
         })
@@ -94,12 +124,21 @@ exports.listSearchTrack = async (req,res) =>{
 
 
 exports.listTrackData = async (req,res) =>{
-  console.log(req.query)
-  req.query.email = req.query.email.trim()
+  const filter = JSON.parse(req.query.filter)
+    console.log('>>>>>',filter)
 
-  if(req.query.email !== '')
-  {
-    await db.select('*').from('user_tracking_data').where('user_email', 'like', `%${req.query.email}%`).then((response)=>{
+    if (filter.startDate !== '' && filter.endDate !== '') {
+        await db.select('*').from('user_tracking_data')
+            .where((qp) => {
+                if (filter.startDate !== '' && filter.endDate !== '') {
+                    qp.where('time_stamp', '>', filter.startDate)
+                    qp.andWhere('time_stamp', '<', filter.endDate)
+                }
+                // if (filter.mobile !== '')
+                //     qp.andWhere('mobile_no', '=', filter.mobile)
+
+
+            }).then((response)=>{
       // console.log(response)
           res.send(response)
         })

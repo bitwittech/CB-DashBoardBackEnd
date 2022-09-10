@@ -5,7 +5,7 @@ const db = require('../../database/dbConfig.js')
 
 exports.listCardTrack = async (req,res) =>{
   const filter = JSON.parse(req.query.filter)
-  console.log('>>>>>',filter)
+  //console.log('>>>>>',filter)
 
   if (filter.startDate !== '' && filter.endDate !== '') {
       await db.select('*').from('card_event')
@@ -19,11 +19,11 @@ exports.listCardTrack = async (req,res) =>{
 
 
           }).then((response)=>{
-      console.log(response)
+      //console.log(response)
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
   }
@@ -34,7 +34,7 @@ exports.listCardTrack = async (req,res) =>{
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
 
@@ -45,7 +45,7 @@ exports.listCardTrack = async (req,res) =>{
 
 exports.listEnrollTrack = async (req,res) =>{
   const filter = JSON.parse(req.query.filter)
-  console.log('>>>>>',filter)
+  //console.log('>>>>>',filter)
 
   if (filter.startDate !== '' && filter.endDate !== '') {
       await db.select('*').from('enroll_event')
@@ -59,11 +59,11 @@ exports.listEnrollTrack = async (req,res) =>{
 
 
           }).then((response)=>{
-      console.log(response)
+      //console.log(response)
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
   }
@@ -74,7 +74,7 @@ exports.listEnrollTrack = async (req,res) =>{
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
 
@@ -85,7 +85,7 @@ exports.listEnrollTrack = async (req,res) =>{
 
 exports.listSearchTrack = async (req,res) =>{
   const filter = JSON.parse(req.query.filter)
-  console.log('>>>>>',filter)
+  //console.log('>>>>>',filter)
 
   if (filter.startDate !== '' && filter.endDate !== '') {
       await db.select('*').from('search_event')
@@ -99,11 +99,11 @@ exports.listSearchTrack = async (req,res) =>{
 
 
           }).then((response)=>{
-      console.log(response)
+      //console.log(response)
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
   }
@@ -114,7 +114,7 @@ exports.listSearchTrack = async (req,res) =>{
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
 
@@ -125,7 +125,7 @@ exports.listSearchTrack = async (req,res) =>{
 
 exports.listTrackData = async (req,res) =>{
   const filter = JSON.parse(req.query.filter)
-    console.log('>>>>>',filter)
+    //console.log('>>>>>',filter)
 
     if (filter.startDate !== '' && filter.endDate !== '') {
         await db.select('*').from('user_tracking_data')
@@ -139,11 +139,11 @@ exports.listTrackData = async (req,res) =>{
 
 
             }).then((response)=>{
-      // console.log(response)
+      // //console.log(response)
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
   }
@@ -151,11 +151,11 @@ exports.listTrackData = async (req,res) =>{
     
         await db.select('*').from('user_tracking_data').orderBy('_id','desc')
         .then((response)=>{
-          // console.log(response)
+          // //console.log(response)
           res.send(response)
         })
         .catch((err)=>{
-            console.log(err)
+            //console.log(err)
             res.send("Not Done !!!")
         })
 
@@ -163,7 +163,7 @@ exports.listTrackData = async (req,res) =>{
 }
 
 exports.searchUser = async (req,res) =>{
-  console.log(req.query)
+  //console.log(req.query)
 
   if(req.query.email !== '' || req.query.data !== '')
   {
@@ -172,18 +172,18 @@ exports.searchUser = async (req,res) =>{
       res.send(data)
     })
     .catch((err)=>{
-       console.log(err)
+       //console.log(err)
        res.send(err)
     })
   }
   else{
     await db.select('*').from('user_tracking_data').orderBy('_id','desc')
     .then((response)=>{
-    //   console.log(response)
+    //   //console.log(response)
       res.send(response)
     })
     .catch((err)=>{
-        console.log(err)
+        //console.log(err)
         res.send("Not Done !!!")
     })
 

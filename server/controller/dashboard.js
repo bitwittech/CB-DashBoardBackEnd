@@ -26,7 +26,7 @@ exports.siteReport = async (req, res) => {
     .table("user_tracking_data").orderBy('_id', 'desc')
     .then(async (response) => {
 
-      // console.log(response)
+      // //console.log(response)
 
       response.map((data) => {
         let time = JSON.stringify(data.time_stamp)
@@ -113,8 +113,88 @@ exports.siteReport = async (req, res) => {
         });
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
       res.send("Not Done !!!");
     });
 };
+
+
+exports.miniReport = async (req,res) =>{
  
+  let anonymous = 0;
+  let logged = 0;
+
+  //console.log(req.query.filter)
+ 
+  const filter = JSON.parse(req.query.filter)
+
+  if (filter.startDate === undefined && filter.endDate === undefined )
+      return   res.send('please provide filter date')
+
+    await db.select('user_email').from('user_tracking_data')
+        .where((qp) => {
+            if (filter.startDate !== '' && filter.endDate !== '') {
+                qp.where('time_stamp', '>', filter.startDate)
+                qp.andWhere('time_stamp', '<', filter.endDate)
+            }
+        }).then((response)=>{
+          response.map((data)=>{
+            if(data.user_email !== 'User Not Logged In')
+              logged += 1;
+            else anonymous += 1; 
+          })
+        })
+        .catch((err)=>{
+          //console.log(err)
+        })
+        
+    let cardCount = await db.select('user_email').from('card_event')
+        .where((qp) => {
+            if (filter.startDate !== '' && filter.endDate !== '') {
+                qp.where('event_time', '>', filter.startDate)
+                qp.andWhere('event_time', '<', filter.endDate)
+            }
+        }).then((response)=>{
+          return response.length
+        })
+        .catch((err)=>{
+          //console.log(err)
+        })
+
+    let totalCardCount = await db.select('user_email').from('card_event')
+        .then((response)=>{
+          return response.length
+        })
+        .catch((err)=>{
+          //console.log(err)
+        })
+
+    let enrollCount = await db.select('user_email').from('enroll_event')
+        .where((qp) => {
+            if (filter.startDate !== '' && filter.endDate !== '') {
+                qp.where('event_time', '>', filter.startDate)
+                qp.andWhere('event_time', '<', filter.endDate)
+            }
+        }).then((response)=>{
+          return response.length
+        })
+        .catch((err)=>{
+          //console.log(err)
+        })
+
+    let totalEnrollCount = await db.select('user_email').from('enroll_event')
+        .then((response)=>{
+          return response.length
+        })
+        .catch((err)=>{
+          //console.log(err)
+        })
+
+        res.send({anonymous,
+          logged,
+          enrollCount,
+          cardCount,
+          totalEnrollCount,
+          totalCardCount})
+
+      }

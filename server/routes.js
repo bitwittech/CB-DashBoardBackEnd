@@ -129,6 +129,7 @@ route.get('/searchUser', AuthJwt, tracking.searchUser);
 // ================ User report ================================
 
 route.get('/siteReport', AuthJwt, dashboard.siteReport);
+route.get('/miniReport', AuthJwt, dashboard.miniReport);
 
 // ================== Banner Routes =============================
 
